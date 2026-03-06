@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FB Grow Pro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #07080f;
+      --s1: #0f1018;
+      --s2: #171825;
+      --s3: #1f2133;
+      --brd: #272a40;
+      --blue: #4b8ef5;
+      --green: #2dd98f;
+      --orange: #f5874b;
+      --pink: #f54b8e;
+      --yellow: #f5d44b;
+      --txt: #e2e4f0;
+      --muted: #5a5e80;
+      --r: 10px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{width:400px;min-height:580px;background:var(--bg);color:var(--txt);font-family:'Outfit',sans-serif;font-size:13px;overflow-x:hidden}
+
+    /* ── Header ── */
+    .hdr{background:var(--s1);border-bottom:1px solid var(--brd);padding:12px 16px;display:flex;align-items:center;gap:10px;position:relative}
+    .hdr::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--blue),transparent)}
+    .logo{width:36px;height:36px;background:linear-gradient(135deg,var(--blue),var(--pink));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+    .hdr-info h1{font-size:14px;font-weight:800;letter-spacing:-0.3px}
+    .hdr-info p{font-size:10px;color:var(--muted);font-weight:400}
+    .live-dot{margin-left:auto;display:flex;align-items:center;gap:5px;font-size:10px;color:var(--green);font-weight:600}
+    .live-dot::before{content:'';width:7px;height:7px;background:var(--green);border-radius:50%;animation:pulse 1.5s infinite}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+
+    /* ── Nav ── */
+    .nav{display:flex;background:var(--s1);border-bottom:1px solid var(--brd);overflow-x:auto}
+    .nav::-webkit-scrollbar{display:none}
+    .nav-btn{flex:1;min-width:60px;padding:9px 6px;text-align:center;font-size:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap}
+    .nav-btn.on{color:var(--blue);border-bottom-color:var(--blue);background:rgba(75,142,245,.06)}
+    .nav-btn:hover:not(.on){color:var(--txt)}
+
+    /* ── Panels ── */
+    .panel{display:none;padding:14px;animation:fadeIn .2s ease}
+    .panel.on{display:block}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+    /* ── Common ── */
+    .sec-lbl{font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+    .card{background:var(--s1);border:1px solid var(--brd);border-radius:var(--r);padding:13px;margin-bottom:10px}
+    .card-hd{font-size:12px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+    label{font-size:10px;color:var(--muted);display:block;margin-bottom:3px;font-weight:500}
+    input,select,textarea{width:100%;background:var(--s2);border:1px solid var(--brd);border-radius:6px;color:var(--txt);padding:8px 10px;font-family:'Outfit',sans-serif;font-size:12px;outline:none;transition:border-color .2s;margin-bottom:9px}
+    input:focus,select:focus,textarea:focus{border-color:var(--blue)}
+    textarea{resize:vertical;min-height:70px}
+    select option{background:var(--s2)}
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .tag-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:9px}
+    .tag{padding:3px 9px;border-radius:99px;font-size:10px;font-weight:600;cursor:pointer;transition:all .15s}
+    .tag.type{background:var(--s3);color:var(--muted);border:1px solid var(--brd)}
+    .tag.type.on{background:rgba(75,142,245,.2);color:var(--blue);border-color:var(--blue)}
+    .tag.trend{background:rgba(45,217,143,.1);color:var(--green);border:1px solid rgba(45,217,143,.3)}
+    .tag.trend:hover{background:rgba(45,217,143,.2)}
+    .tag.hashtag{background:rgba(75,142,245,.1);color:var(--blue);border:1px solid rgba(75,142,245,.2)}
+
+    /* ── Buttons ── */
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:9px 14px;border-radius:7px;font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;cursor:pointer;border:none;transition:all .18s;letter-spacing:.3px}
+    .btn-full{width:100%}
+    .btn-blue{background:linear-gradient(135deg,var(--blue),#7b5cf6);color:white}
+    .btn-blue:hover{opacity:.88;transform:translateY(-1px)}
+    .btn-green{background:linear-gradient(135deg,var(--green),#27c97a);color:#001a0e}
+    .btn-green:hover{opacity:.88;transform:translateY(-1px)}
+    .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--brd)}
+    .btn-ghost:hover{border-color:var(--blue);color:var(--blue)}
+    .btn-danger{background:transparent;color:var(--orange);border:1px solid var(--orange);padding:4px 9px;font-size:10px}
+    .btn-danger:hover{background:rgba(245,135,75,.1)}
+    .btn-row{display:flex;gap:7px;margin-top:4px}
+    .btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important}
+
+    /* ── AI Output ── */
+    .ai-out{background:var(--s2);border:1px solid var(--brd);border-radius:var(--r);padding:12px;margin-top:10px;display:none}
+    .ai-out.show{display:block;animation:fadeIn .3s ease}
+    .ai-caption{font-size:12px;line-height:1.6;margin-bottom:10px;white-space:pre-wrap;border-bottom:1px solid var(--brd);padding-bottom:10px}
+    .ai-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:10px}
+    .ai-meta-item label{color:var(--muted);font-size:9px;margin-bottom:2px}
+    .ai-meta-item p{color:var(--txt);font-weight:500}
+    .ai-tip{margin-top:8px;padding:8px 10px;background:rgba(45,217,143,.08);border-left:2px solid var(--green);border-radius:0 6px 6px 0;font-size:11px;color:var(--green)}
+    .spinner{display:inline-block;width:12px;height:12px;border:2px solid rgba(255,255,255,.2);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* ── Trends ── */
+    .trend-item{display:flex;align-items:center;justify-content:space-between;padding:8px 11px;background:var(--s1);border:1px solid var(--brd);border-radius:7px;margin-bottom:6px;cursor:pointer;transition:all .15s}
+    .trend-item:hover{border-color:var(--green);background:rgba(45,217,143,.05)}
+    .trend-title{font-size:11px;font-weight:600}
+    .trend-traffic{font-size:9px;font-family:'JetBrains Mono',monospace;color:var(--green)}
+    .trends-refresh{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+
+    /* ── Schedule ── */
+    .sched-item{background:var(--s1);border:1px solid var(--brd);border-radius:var(--r);padding:11px 13px;margin-bottom:8px;position:relative;overflow:hidden}
+    .sched-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px}
+    .sched-item.pending::before{background:linear-gradient(180deg,var(--blue),#7b5cf6)}
+    .sched-item.fired::before{background:var(--green)}
+    .sched-item.fired{opacity:.55}
+    .sched-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+    .sched-label{font-size:12px;font-weight:600}
+    .sched-time{font-size:10px;color:var(--blue);font-family:'JetBrains Mono',monospace;font-weight:600}
+    .sched-body{font-size:10px;color:var(--muted);line-height:1.4;margin-bottom:6px}
+    .badge{padding:2px 7px;border-radius:99px;font-size:9px;font-weight:700;letter-spacing:.5px}
+    .badge-pending{background:rgba(75,142,245,.15);color:var(--blue)}
+    .badge-done{background:rgba(45,217,143,.15);color:var(--green)}
+    .badge-type{background:var(--s3);color:var(--muted)}
+
+    /* ── Stats ── */
+    .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+    .stat-box{background:var(--s1);border:1px solid var(--brd);border-radius:var(--r);padding:12px 8px;text-align:center}
+    .stat-val{font-size:22px;font-weight:900;font-family:'Outfit',sans-serif;background:linear-gradient(135deg,var(--blue),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .stat-lbl{font-size:9px;color:var(--muted);margin-top:2px;font-weight:500}
+
+    /* ── Settings ── */
+    .setting-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--brd)}
+    .setting-row:last-child{border-bottom:none}
+    .setting-info h4{font-size:12px;font-weight:600}
+    .setting-info p{font-size:10px;color:var(--muted)}
+    .toggle{width:36px;height:20px;background:var(--s3);border-radius:99px;cursor:pointer;position:relative;transition:background .2s;flex-shrink:0;border:1px solid var(--brd)}
+    .toggle.on{background:var(--blue)}
+    .toggle::after{content:'';position:absolute;width:14px;height:14px;background:white;border-radius:50%;top:2px;left:2px;transition:transform .2s}
+    .toggle.on::after{transform:translateX(16px)}
+    .api-key-row{margin-top:10px}
+    .api-key-row input{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.5px}
+
+    /* ── Empty ── */
+    .empty{text-align:center;padding:28px 20px;color:var(--muted)}
+    .empty .ico{font-size:30px;margin-bottom:8px}
+    .empty p{font-size:11px;line-height:1.6}
+
+    /* ── Toast ── */
+    .toast{position:fixed;bottom:14px;left:50%;transform:translateX(-50%) translateY(30px);background:var(--green);color:#001a0e;padding:7px 18px;border-radius:99px;font-size:11px;font-weight:700;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;z-index:9999}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    .toast.err{background:var(--orange);color:white}
+
+    /* ── Groups/Mentions chips ── */
+    .chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px;min-height:24px}
+    .chip{padding:3px 8px;background:rgba(75,142,245,.15);color:var(--blue);border-radius:99px;font-size:10px;font-weight:600;display:flex;align-items:center;gap:4px}
+    .chip span{cursor:pointer;color:var(--muted);font-size:10px}
+    .chip span:hover{color:var(--orange)}
+    .add-chip{display:flex;gap:6px;margin-bottom:9px}
+    .add-chip input{margin-bottom:0;flex:1}
+    .add-chip button{background:var(--s3);border:1px solid var(--brd);color:var(--txt);padding:8px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;white-space:nowrap;transition:all .15s}
+    .add-chip button:hover{border-color:var(--blue);color:var(--blue)}
+  </style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="logo">🚀</div>
+  <div class="hdr-info">
+    <h1>FB Grow Pro</h1>
+    <p>AI Content · Trends · Scheduler</p>
+  </div>
+  <div class="live-dot" id="liveStatus">Live</div>
+</div>
+
+<div class="nav">
+  <div class="nav-btn on" data-tab="compose">✍️ Compose</div>
+  <div class="nav-btn" data-tab="trends">🔥 Trends</div>
+  <div class="nav-btn" data-tab="schedule">📅 Schedule</div>
+  <div class="nav-btn" data-tab="tips">💡 Tips</div>
+  <div class="nav-btn" data-tab="settings">⚙️ Settings</div>
+</div>
+
+<!-- ════ COMPOSE ════ -->
+<div class="panel on" id="panel-compose">
+  <div class="card">
+    <div class="card-hd">🎨 Post Type</div>
+    <div class="tag-row" id="postTypeRow">
+      <div class="tag type on" data-type="post">📝 Post</div>
+      <div class="tag type" data-type="reel">🎬 Reel</div>
+      <div class="tag type" data-type="story">✨ Story</div>
+      <div class="tag type" data-type="photo">📷 Photo</div>
+      <div class="tag type" data-type="event">📅 Event</div>
+      <div class="tag type" data-type="poll">📊 Poll</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd">🤖 AI Content Generator</div>
+    <label>Topic / Idea</label>
+    <input type="text" id="aiTopic" placeholder="e.g. product launch, motivational quote, weekend sale…"/>
+    <div class="row2">
+      <div>
+        <label>Tone</label>
+        <select id="aiTone">
+          <option value="engaging and friendly">Friendly</option>
+          <option value="professional and authoritative">Professional</option>
+          <option value="funny and witty">Funny</option>
+          <option value="inspirational">Inspirational</option>
+          <option value="urgent and sales-focused">Sales</option>
+          <option value="educational and informative">Educational</option>
+        </select>
+      </div>
+      <div>
+        <label>Use Trending Topic</label>
+        <select id="aiTrendPick">
+          <option value="">— None —</option>
+        </select>
+      </div>
+    </div>
+
+    <label>Mentions (@page or @friend)</label>
+    <div class="chips" id="mentionChips"></div>
+    <div class="add-chip">
+      <input type="text" id="mentionInput" placeholder="@pagename"/>
+      <button id="addMentionBtn">+ Add</button>
+    </div>
+
+    <label>Share to Groups</label>
+    <div class="chips" id="groupChips"></div>
+    <div class="add-chip">
+      <input type="text" id="groupInput" placeholder="Group name"/>
+      <button id="addGroupBtn">+ Add</button>
+    </div>
+
+    <button class="btn btn-blue btn-full" id="generateBtn">
+      ✨ Generate with AI
+    </button>
+  </div>
+
+  <div class="ai-out" id="aiOutput">
+    <div class="ai-caption" id="aiCaption"></div>
+    <div class="tag-row" id="aiHashtags"></div>
+    <div class="ai-meta">
+      <div class="ai-meta-item">
+        <label>📣 Call to Action</label>
+        <p id="aiCta">—</p>
+      </div>
+      <div class="ai-meta-item">
+        <label>⏰ Best Time</label>
+        <p id="aiBestTime">—</p>
+      </div>
+    </div>
+    <div class="ai-tip" id="aiTip"></div>
+
+    <div class="btn-row" style="margin-top:12px">
+      <button class="btn btn-green btn-full" id="injectBtn">📤 Send to Facebook</button>
+      <button class="btn btn-ghost" id="scheduleFromAIBtn">📅 Schedule</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ TRENDS ════ -->
+<div class="panel" id="panel-trends">
+  <div class="trends-refresh">
+    <div class="sec-lbl" style="margin:0;flex:1">🔥 Real-Time Google Trends</div>
+    <button class="btn btn-ghost" id="refreshTrendsBtn" style="padding:5px 10px;font-size:10px">↻ Refresh</button>
+  </div>
+  <div id="trendsList">
+    <div class="empty"><div class="ico">📡</div><p>Loading trends…</p></div>
+  </div>
+</div>
+
+<!-- ════ SCHEDULE ════ -->
+<div class="panel" id="panel-schedule">
+  <div class="stats-grid" id="schedStats"></div>
+
+  <div class="card">
+    <div class="card-hd">📅 Schedule a Post</div>
+    <label>Post Title / Label</label>
+    <input type="text" id="schedTitle" placeholder="e.g. Weekend promo, Morning motivation"/>
+    <label>Date & Time</label>
+    <input type="datetime-local" id="schedTime"/>
+    <label>Content Preview</label>
+    <textarea id="schedContent" placeholder="Paste or type your post content…"></textarea>
+    <label>Post Type</label>
+    <select id="schedType">
+      <option value="post">📝 Regular Post</option>
+      <option value="reel">🎬 Reel</option>
+      <option value="story">✨ Story</option>
+      <option value="photo">📷 Photo/Video</option>
+      <option value="event">📅 Event</option>
+    </select>
+    <button class="btn btn-blue btn-full" id="addSchedBtn">+ Add to Schedule</button>
+  </div>
+
+  <div class="sec-lbl">Scheduled Queue</div>
+  <div id="schedList"></div>
+</div>
+
+<!-- ════ TIPS ════ -->
+<div class="panel" id="panel-tips">
+  <div class="sec-lbl">📖 Organic Growth Playbook</div>
+  <div id="tipsList"></div>
+</div>
+
+<!-- ════ SETTINGS ════ -->
+<div class="panel" id="panel-settings">
+  <div class="sec-lbl">API Configuration</div>
+  <div class="card">
+    <div class="setting-row">
+      <div class="setting-info"><h4>Claude AI</h4><p>Powers content generation</p></div>
+      <div class="toggle on" id="toggleAI"></div>
+    </div>
+    <div class="setting-row">
+      <div class="setting-info"><h4>Live Trends</h4><p>Google Trends auto-refresh</p></div>
+      <div class="toggle on" id="toggleTrends"></div>
+    </div>
+    <div class="setting-row">
+      <div class="setting-info"><h4>Post Notifications</h4><p>Desktop reminders</p></div>
+      <div class="toggle on" id="toggleNotifs"></div>
+    </div>
+    <div class="api-key-row">
+      <label>Anthropic API Key (for AI generation)</label>
+      <input type="password" id="apiKeyInput" placeholder="sk-ant-…"/>
+      <button class="btn btn-blue btn-full" id="saveApiKeyBtn" style="margin-top:4px">💾 Save API Key</button>
+    </div>
+  </div>
+
+  <div class="sec-lbl">Facebook Integration</div>
+  <div class="card">
+    <div class="setting-row">
+      <div class="setting-info">
+        <h4>📤 Post Injection</h4>
+        <p>Injects AI content into Facebook's composer. You review and click Post yourself.</p>
+      </div>
+    </div>
+    <div class="setting-row">
+      <div class="setting-info">
+        <h4>🔗 Graph API (Advanced)</h4>
+        <p>For full scheduling, enter your Facebook Page Access Token</p>
+      </div>
+    </div>
+    <label>Page Access Token (optional)</label>
+    <input type="password" id="fbTokenInput" placeholder="EAABs…"/>
+    <button class="btn btn-ghost btn-full" id="saveFbTokenBtn">Save Token</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="popup.js"></script>
+</body>
+</html>
